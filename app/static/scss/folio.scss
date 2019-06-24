@@ -1,0 +1,371 @@
+/*font Variables*/
+$primary-font: 'Roboto', sans-serif;
+
+/*Color Variables*/
+$primary-color  : #1345e6;
+$primary-color2 : #ed239f;
+$title-color    : #05364d;
+$text-color     : #797979;
+$offwhite       : #f8faff;
+$white          : #fff;
+
+
+//    Mixins
+@mixin transition($args: all 0.4s ease 0s) {
+	-webkit-transition: $args;
+	-moz-transition: $args;
+	-o-transition: $args;
+	transition: $args;
+}
+
+@mixin transition-duration($args1, $args2) {
+	-webkit-transition-duration: $args1, $args2;
+	-moz-transition-duration: $args1, $args2;
+	-o-transition-duration: $args1, $args2;
+	transition-duration: $args1, $args2;
+}
+
+@mixin transition-delay($args1, $args2) {
+	-webkit-transition-delay: $args1, $args2;
+	-moz-transition-delay: $args1, $args2;
+	-o-transition-delay: $args1, $args2;
+	transition-delay: $args1, $args2;
+}
+
+@mixin transition-property($args1, $args2) {
+	-webkit-transition-property: $args1, $args2;
+	-moz-transition-property: $args1, $args2;
+	-o-transition-property: $args1, $args2;
+	transition-property: $args1, $args2;
+}
+
+@mixin border-gradient($deg, $args1, $args2) {
+	border-image: -webkit-linear-gradient($deg, $args1, $args2);
+	border-image: -moz-linear-gradient($deg, $args1, $args2);
+	border-image: -o-linear-gradient($deg, $args1, $args2);
+	border-image: linear-gradient($deg, $args1, $args2);
+}
+
+@mixin gradient($deg, $args1, $args2) {
+	background: -webkit-linear-gradient($deg, $args1, $args2);
+	background: -moz-linear-gradient($deg, $args1, $args2);
+	background: -o-linear-gradient($deg, $args1, $args2);
+	background: linear-gradient($deg, $args1, $args2);
+}
+
+@mixin gradient2($deg, $args1,$args2, $args3) {
+	background: -webkit-linear-gradient($deg, $args1, $args2, $args3);
+	background: -moz-linear-gradient($deg, $args1, $args2, $args3);
+	background: -ms-linear-gradient($deg, $args1, $args2, $args3);
+	background: -o-linear-gradient($deg, $args1, $args2, $args3);
+	background: linear-gradient($deg, $args1, $args2, $args3);
+}
+
+@mixin transform($transform) {
+	-webkit-transform: $transform;
+	-moz-transform: $transform;
+	-ms-transform: $transform;
+	-o-transform: $transform;
+	transform: $transform;
+}
+
+@mixin transform-origin($value) {
+	-webkit-transform-origin: $value;
+	-moz-transform-origin: $value;
+	-ms-transform-origin: $value;
+	-o-transform-origin: $value;
+	transform-origin: $value;
+}
+
+@mixin backface-visibility($value) {
+	-webkit-backface-visibility: $value;
+	-moz-backface-visibility: $value;
+	backface-visibility: $value;
+}
+
+@mixin calc ($property, $expression) {
+	#{$property}: -webkit-calc(#{$expression});
+	#{$property}: -moz-calc(#{$expression});
+	#{$property}: calc(#{$expression});
+}
+
+@mixin filter ($value) {
+	filter: $value;
+	-o-filter: $value;
+	-ms-filter: $value;
+	-moz-filter: $value;
+	-webkit-filter: $value;
+}
+
+@mixin keyframes ($animation-name) {
+	@-webkit-keyframes #{$animation-name} {
+		@content;
+	}
+	@-moz-keyframes #{$animation-name} {
+		@content;
+	}
+	@-o-keyframes #{$animation-name} {
+		@content;
+	}
+	@keyframes #{$animation-name} {
+		@content;
+	}
+}
+
+// Placeholder Mixins
+@mixin placeholder {
+	&.placeholder {
+		@content;
+	}
+	&:-moz-placeholder {
+		@content;
+	}
+	&::-moz-placeholder {
+		@content;
+	}
+	&::-webkit-input-placeholder {
+		@content;
+	}
+}
+
+@mixin animation ($args) {
+	-webkit-animation: $args;
+	-moz-animation: $args;
+	-o-animation: $args;
+	animation: $args;
+}
+
+/* Medium Layout: 1280px */
+
+@mixin medium {
+	@media (min-width: 992px) and (max-width: 1400px) {
+		@content;
+	}
+}
+
+/* Tablet Layout: 768px */
+
+@mixin tablet {
+	@media (min-width: 768px) and (max-width: 1200px) {
+		@content;
+	}
+}
+
+/* Mobile Layout: 320px */
+
+@mixin mobile {
+	@media (max-width: 767px) {
+		@content;
+	}
+}
+
+/* Wide Mobile Layout: 480px */
+
+@mixin wide-mobile {
+	@media (min-width: 480px) and (max-width: 767px) {
+		@content;
+	}
+}
+
+@mixin cmq ($min, $max) {
+	@media (min-width: $min) and (max-width: $max) {
+		@content;
+	}
+}
+
+
+/* Start Portfolio Area css
+============================================================================================ */
+
+.portfolio_area {
+    padding-bottom: 110px;
+    @media (max-width: 991px) {
+        padding-bottom: 50px;
+    }
+    .filters {
+        ul {
+            padding-left: 0;
+            margin-bottom: 30px;
+            @media (max-width: 991px) {
+                margin-bottom: 20px;
+            }
+            li {
+                display: inline-block;
+                margin-right: 40px;
+                font-size: 13px;
+                font-weight: 400;
+                text-transform: uppercase;
+                color: $title-color;
+                cursor: pointer;
+                @include transition();
+                &:hover,
+                &.active {
+                    color: $primary-color;
+                }
+                @media (max-width: 767px) {
+                    margin-right: 20px;
+                }
+            }
+        }
+    }
+}
+
+.single_portfolio {
+    position: relative;
+    margin-bottom: 30px;
+    @media (max-width: 767px) {
+        margin-bottom: 35px;
+    }
+    .overlay {
+        @include transition();
+    }
+    .short_info {
+        position: absolute;
+        top: 3rem;
+        //bottom: 44px;
+        left: 3rem;
+        //left: 80px;
+        color: #ffffff;
+        opacity: 0;
+        visibility: hidden;
+        @include transition();
+        h4 {
+            text-transform: capitalize;
+            font-size: 20px;
+            font-weight: 500;
+            margin-bottom: 5px;
+            a {
+                color: #ffffff;
+            }
+        }
+        p {
+            margin-bottom: 0px;
+        }
+    }
+    &:hover {
+        .overlay {
+            top: 20px;
+            left: 20px;
+            background: rgba($primary-color, 0.9);
+        }
+        .short_info {
+            top: 3rem;
+            //bottom: 80%;
+            //bottom: 24px;
+            //left: 60px;
+            left: 3rem;
+            opacity: 1;
+            visibility: visible;
+        }
+    }
+}
+
+
+.short_info {
+  h2, h3, h4 {
+    color: #ffffff;
+  }
+}
+
+.portfolio_details_area {}
+
+.portfolio_details_inner {
+    .row {
+        margin-bottom: 35px;
+        @media (max-width: 480px) {
+            margin-bottom: 30px;
+        }
+    }
+    p {
+        margin-bottom: 30px;
+        font-size: 14px;
+        &:last-child {
+            margin-bottom: 0px;
+        }
+    }
+    .portfolio_right_text {
+        padding: 30px;
+        background: #f8faff;
+        margin-top: 10px;
+        h4 {
+            font-size: 20px;
+            text-transform: capitalize !important;
+            margin-bottom: 10px;
+        }
+        p {
+            margin-bottom: 25px;
+            font-size: 14px;
+        }
+        .list {
+            li {
+                margin-bottom: 7px;
+                span {
+                    font-family: $primary-font;
+                    color: #000000;
+                    font-size: 16px;
+                    font-weight: 500;
+                    width: 97px;
+                    display: inline-block;
+                }
+                font-weight: normal;
+                font-size: 14px;
+                &:last-child {
+                    margin-bottom: 0px;
+                }
+                i {
+                    color: #f1cd09;
+                }
+            }
+        }
+    }
+}
+
+/* End Portfolio Area css
+============================================================================================ */
+/* Main Title Area css
+============================================================================================ */
+
+.main_title {
+    margin-bottom: 80px;
+    @media (max-width: 1199px) {
+        margin-bottom: 40px;
+    }
+    p.top_text {
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-weight: 500;
+        position: relative;
+        margin-bottom: 10px;
+        span {
+            position: relative;
+            top: -2px;
+            display: inline-block;
+            margin-left: 5px;
+            width: 80px;
+            height: 4px;
+            background: rgba($primary-color2, .6);
+            @include filter(blur(4px));
+            border-radius: 5px;
+        }
+    }
+    h2 {
+        font-size: 42px;
+        font-weight: 700;
+        margin-bottom: 0px;
+        line-height: 52px;
+        text-transform: capitalize;
+        @media (max-width: 767px) {
+            font-size: 30px;
+            line-height: 34px;
+        }
+        br {
+            @media (max-width: 991px) {
+                display: none;
+            }
+        }
+    }
+}
+
+
+/* End Main Title Area css
+============================================================================================ */

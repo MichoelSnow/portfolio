@@ -1,0 +1,1444 @@
+{% extends "base.html" %}
+
+{% block head_content %}
+
+    <script src="{{ url_for('static', filename='vendor/require/require.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='scss/jupyter.css') }}" type="text/css">
+
+
+
+
+    <!-- Loading mathjax macro -->
+    <!-- Load mathjax -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML"></script>
+    <!-- MathJax configuration -->
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+            processEscapes: true,
+            processEnvironments: true
+        },
+        // Center justify equations in code and markdown cells. Elsewhere
+        // we use CSS to left justify single line equations in code cells.
+        displayAlign: 'center',
+        "HTML-CSS": {
+            styles: {'.MathJax_Display': {"margin": 0}},
+            linebreaks: { automatic: true }
+        }
+    });
+
+
+
+
+    </script>
+{% endblock %}
+{% block body_content %}
+    <h1 class="mb-4 text-center p-3 p-lg-5">Projects</h1>
+    <div id="jup-div" class="container-fluid p-0">
+        <div tabindex="-1" id="notebook" class="border-box-sizing">
+            <div class="container" id="notebook-container">
+
+                <div class="cell border-box-sizing text_cell rendered">
+                    <div class="prompt input_prompt">
+                    </div>
+                    <div class="inner_cell">
+                        <div class="text_cell_render border-box-sizing rendered_html">
+                            <h1 id="Imports">Imports<a class="anchor-link" href="#Imports">&#182;</a></h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="cell border-box-sizing code_cell rendered">
+                    <div class="input">
+                        <div class="prompt input_prompt">In&nbsp;[6]:</div>
+                        <div class="inner_cell">
+                            <div class="input_area">
+                                <div class=" highlight hl-ipython3"><pre><span></span><span
+                                        class="kn">import</span> <span class="nn">pandas</span> <span
+                                        class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">gensim.utils</span> <span class="k">import</span> <span class="n">simple_preprocess</span>
+<span class="kn">from</span> <span class="nn">gensim.models.doc2vec</span> <span class="k">import</span> <span
+                                            class="n">TaggedDocument</span><span class="p">,</span> <span class="n">Doc2Vec</span>
+<span class="kn">from</span> <span class="nn">gensim.models</span> <span class="k">import</span> <span class="n">Word2Vec</span>
+<span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="k">import</span> <span
+                                            class="n">PCA</span>
+<span class="kn">from</span> <span class="nn">sklearn.manifold</span> <span class="k">import</span> <span
+                                            class="n">TSNE</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span
+                                            class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">plotly.plotly</span> <span class="k">as</span> <span
+                                            class="nn">py</span>
+<span class="kn">import</span> <span class="nn">plotly.graph_objs</span> <span class="k">as</span> <span
+                                            class="nn">go</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">plotly</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span
+                                            class="n">Counter</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="k">import</span> <span class="n">tqdm</span>
+</pre>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="cell border-box-sizing code_cell rendered">
+                    <div class="input">
+                        <div class="prompt input_prompt">In&nbsp;[92]:</div>
+                        <div class="inner_cell">
+                            <div class="input_area">
+                                <div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span
+                                        class="nb">open</span><span class="p">(</span><span class="s1">&#39;/home/msnow/site_configs/secrets.json&#39;</span><span
+                                        class="p">,</span> <span class="s1">&#39;r&#39;</span><span
+                                        class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span
+                                        class="p">:</span>
+    <span class="n">secrets</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span
+                                            class="n">load</span><span class="p">(</span><span class="n">fp</span><span
+                                            class="p">)</span>
+</pre>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="cell border-box-sizing code_cell rendered">
+                    <div class="input">
+                        <div class="prompt input_prompt">In&nbsp;[93]:</div>
+                        <div class="inner_cell">
+                            <div class="input_area">
+                                <div class=" highlight hl-ipython3"><pre><span></span><span class="n">plotly</span><span
+                                        class="o">.</span><span class="n">tools</span><span class="o">.</span><span
+                                        class="n">set_credentials_file</span><span class="p">(</span><span class="n">username</span><span
+                                        class="o">=</span><span class="n">secrets</span><span class="p">[</span><span
+                                        class="s1">&#39;plotly&#39;</span><span class="p">][</span><span class="s1">&#39;username&#39;</span><span
+                                        class="p">],</span> <span class="n">api_key</span><span class="o">=</span><span
+                                        class="n">secrets</span><span class="p">[</span><span class="s1">&#39;plotly&#39;</span><span
+                                        class="p">][</span><span class="s1">&#39;api_key&#39;</span><span
+                                        class="p">])</span>
+</pre>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="cell border-box-sizing text_cell rendered">
+                    <div class="prompt input_prompt">
+                    </div>
+                    <div class="inner_cell">
+                        <div class="text_cell_render border-box-sizing rendered_html">
+                            <h1 id="Ancillary-Functions">Ancillary Functions<a class="anchor-link"
+                                                                               href="#Ancillary-Functions">&#182;</a>
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="cell border-box-sizing code_cell rendered">
+                    <div class="input">
+                        <div class="prompt input_prompt">In&nbsp;[40]:</div>
+                        <div class="inner_cell">
+                            <div class="input_area">
+                                <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span
+                                        class="nc">EmbedText</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span
+                                            class="p">):</span>
+        <span class="c1"># self.df = df</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model_d2v</span> <span
+                                            class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">train_corpus</span> <span class="o">=</span> <span
+                                            class="kc">None</span>
+        <span class="c1"># self.text_col = text_col</span>
+        <span class="c1"># self.class_col = class_col</span>
+
+    <span class="k">def</span> <span class="nf">d2v_setup</span><span class="p">(</span><span
+                                            class="bp">self</span><span class="p">,</span> <span
+                                            class="n">df</span><span class="p">:</span> <span class="n">pd</span><span
+                                            class="o">.</span><span class="n">DataFrame</span><span
+                                            class="p">,</span> <span class="n">text_col</span><span
+                                            class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span
+                                            class="n">class_col</span><span class="p">:</span> <span
+                                            class="nb">str</span> <span class="o">=</span> <span
+                                            class="kc">None</span><span class="p">,</span> <span
+                                            class="n">emb_size</span><span class="p">:</span> <span
+                                            class="nb">int</span> <span class="o">=</span> <span
+                                            class="mi">100</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">train_corpus</span> <span class="o">=</span> <span
+                                            class="p">[]</span>
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">row</span> <span
+                                            class="ow">in</span> <span class="n">df</span><span class="o">.</span><span
+                                            class="n">iterrows</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">class_col</span> <span class="ow">is</span> <span
+                                            class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">train_corpus</span><span
+                                            class="o">.</span><span class="n">append</span><span class="p">(</span><span
+                                            class="n">TaggedDocument</span><span class="p">(</span><span
+                                            class="n">row</span><span class="p">[</span><span
+                                            class="n">text_col</span><span class="p">],</span> <span
+                                            class="p">[</span><span class="n">idx</span><span class="p">]))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">train_corpus</span><span
+                                            class="o">.</span><span class="n">append</span><span class="p">(</span><span
+                                            class="n">TaggedDocument</span><span class="p">(</span><span
+                                            class="n">row</span><span class="p">[</span><span
+                                            class="n">text_col</span><span class="p">],</span> <span
+                                            class="p">[</span><span class="n">row</span><span class="p">[</span><span
+                                            class="n">class_col</span><span class="p">]]))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model_d2v</span> <span
+                                            class="o">=</span> <span class="n">Doc2Vec</span><span
+                                            class="p">(</span><span class="n">vector_size</span><span class="o">=</span><span
+                                            class="n">emb_size</span><span class="p">,</span> <span
+                                            class="n">dm</span><span class="o">=</span><span class="mi">0</span><span
+                                            class="p">,</span> <span class="n">min_count</span><span
+                                            class="o">=</span><span class="mi">2</span><span class="p">,</span> <span
+                                            class="n">workers</span><span class="o">=</span><span
+                                            class="mi">6</span><span class="p">,</span> <span
+                                            class="n">epochs</span><span class="o">=</span><span
+                                            class="mi">1</span><span class="p">,</span> <span class="n">min_alpha</span><span
+                                            class="o">=</span><span class="mf">0.025</span><span class="p">,</span>
+                                 <span class="n">alpha</span><span class="o">=</span><span class="mf">0.025</span><span
+                                            class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model_d2v</span><span
+                                            class="o">.</span><span class="n">build_vocab</span><span class="p">(</span><span
+                                            class="bp">self</span><span class="o">.</span><span
+                                            class="n">train_corpus</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">d2v_fit</span><span class="p">(</span><span class="bp">self</span><span
+                                            class="p">,</span> <span class="n">epochs</span><span
+                                            class="p">:</span> <span class="nb">int</span> <span
+                                            class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span
+                                            class="n">decay_rate</span><span class="p">:</span> <span
+                                            class="nb">float</span> <span class="o">=</span> <span
+                                            class="mf">0.002</span><span class="p">):</span>
+<span class="c1">#         print(&#39;Fitting Doc2Vec&#39;)</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">tqdm</span><span
+                                            class="p">(</span><span class="nb">range</span><span class="p">(</span><span
+                                            class="n">epochs</span><span class="p">)):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">model_d2v</span><span class="o">.</span><span
+                                            class="n">train</span><span class="p">(</span><span
+                                            class="bp">self</span><span class="o">.</span><span
+                                            class="n">train_corpus</span><span class="p">,</span> <span class="n">total_examples</span><span
+                                            class="o">=</span><span class="bp">self</span><span class="o">.</span><span
+                                            class="n">model_d2v</span><span class="o">.</span><span class="n">corpus_count</span><span
+                                            class="p">,</span> <span class="n">epochs</span><span
+                                            class="o">=</span><span class="n">epochs</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">model_d2v</span><span class="o">.</span><span
+                                            class="n">alpha</span> <span class="o">-=</span> <span
+                                            class="n">decay_rate</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">model_d2v</span><span class="o">.</span><span
+                                            class="n">min_alpha</span> <span class="o">=</span> <span
+                                            class="bp">self</span><span class="o">.</span><span
+                                            class="n">model_d2v</span><span class="o">.</span><span
+                                            class="n">alpha</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span
+                                            class="n">model_d2v</span>
+
+    <span class="k">def</span> <span class="nf">d2v_embed_save</span><span class="p">(</span><span
+                                            class="bp">self</span><span class="p">,</span> <span
+                                            class="n">loc</span><span class="p">:</span> <span
+                                            class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model_d2v</span><span
+                                            class="o">.</span><span class="n">save</span><span class="p">(</span><span
+                                            class="n">loc</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">d2v_embed_load</span><span class="p">(</span><span
+                                            class="bp">self</span><span class="p">,</span> <span
+                                            class="n">model_loc</span><span class="p">:</span> <span
+                                            class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model_d2v</span> <span
+                                            class="o">=</span> <span class="n">Doc2Vec</span><span
+                                            class="o">.</span><span class="n">load</span><span class="p">(</span><span
+                                            class="n">model_loc</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">d2v_vectors</span><span class="p">(</span><span
+                                            class="bp">self</span><span class="p">,</span> <span
+                                            class="n">df</span><span class="p">:</span> <span class="n">pd</span><span
+                                            class="o">.</span><span class="n">DataFrame</span><span
+                                            class="p">,</span> <span class="n">text_col</span><span
+                                            class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span
+                                            class="p">[:,</span> <span class="n">text_col</span><span class="p">]</span><span
+                                            class="o">.</span><span class="n">map</span><span class="p">(</span><span
+                                            class="k">lambda</span> <span class="n">x</span><span
+                                            class="p">:</span> <span class="bp">self</span><span class="o">.</span><span
+                                            class="n">model_d2v</span><span class="o">.</span><span class="n">infer_vector</span><span
+                                            class="p">(</span><span class="n">x</span><span class="p">)</span><span
+                                            class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+
+    <span class="k">def</span> <span class="nf">d2v_wordvecs</span><span class="p">(</span><span
+                                            class="bp">self</span><span class="p">,</span> <span
+                                            class="n">df</span><span class="p">:</span> <span class="n">pd</span><span
+                                            class="o">.</span><span class="n">DataFrame</span><span
+                                            class="p">,</span> <span class="n">text_col</span><span
+                                            class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span
+                                            class="o">-&gt;</span> <span class="n">pd</span><span
+                                            class="o">.</span><span class="n">Series</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span
+                                            class="p">[:,</span> <span class="n">text_col</span><span class="p">]</span><span
+                                            class="o">.</span><span class="n">map</span><span class="p">(</span>
+            <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span
+                                            class="n">np</span><span class="o">.</span><span class="n">array</span><span
+                                            class="p">([</span><span class="bp">self</span><span class="o">.</span><span
+                                            class="n">model_d2v</span><span class="o">.</span><span
+                                            class="n">wv</span><span class="o">.</span><span
+                                            class="n">word_vec</span><span class="p">(</span><span
+                                            class="n">i</span><span class="p">)</span> <span class="k">for</span> <span
+                                            class="n">i</span> <span class="ow">in</span> <span class="n">x</span> <span
+                                            class="k">if</span> <span class="n">i</span> <span
+                                            class="ow">in</span> <span class="bp">self</span><span
+                                            class="o">.</span><span class="n">model_d2v</span><span
+                                            class="o">.</span><span class="n">wv</span><span class="o">.</span><span
+                                            class="n">vocab</span><span class="p">]))</span>
+</pre>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="cell border-box-sizing text_cell rendered">
+                    <div class="prompt input_prompt">
+                    </div>
+                    <div class="inner_cell">
+                        <div class="text_cell_render border-box-sizing rendered_html">
+                            <h1 id="Load-Data">Load Data<a class="anchor-link" href="#Load-Data">&#182;</a></h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="cell border-box-sizing code_cell rendered">
+                    <div class="input">
+                        <div class="prompt input_prompt">In&nbsp;[29]:</div>
+                        <div class="inner_cell">
+                            <div class="input_area">
+                                <div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span
+                                        class="nb">open</span><span class="p">(</span><span class="s1">&#39;../src/data/game_info_190509.json&#39;</span><span
+                                        class="p">,</span> <span class="s1">&#39;r&#39;</span><span
+                                        class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span
+                                        class="p">:</span>
+    <span class="n">df_game</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span
+                                            class="n">DataFrame</span><span class="p">(</span><span
+                                            class="n">json</span><span class="o">.</span><span
+                                            class="n">load</span><span class="p">(</span><span class="n">fp</span><span
+                                            class="p">))</span>
+<span class="n">df_game</span><span class="o">.</span><span class="n">shape</span>
+</pre>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="output_wrapper">
+                        <div class="output">
+
+
+                            <div class="output_area">
+
+                                <div class="prompt output_prompt">Out[29]:</div>
+
+
+                                <div class="output_text output_subarea output_execute_result">
+                                    <pre>(15000, 48)</pre>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="cell border-box-sizing code_cell rendered">
+                    <div class="input">
+                        <div class="prompt input_prompt">In&nbsp;[96]:</div>
+                        <div class="inner_cell">
+                            <div class="input_area">
+                                <div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span
+                                        class="nb">open</span><span class="p">(</span><span class="s1">&#39;../src/data/user_comments_190511.json&#39;</span><span
+                                        class="p">,</span> <span class="s1">&#39;r&#39;</span><span
+                                        class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span
+                                        class="p">:</span>
+    <span class="n">comment_list</span> <span class="o">=</span> <span class="n">json</span><span
+                                            class="o">.</span><span class="n">load</span><span class="p">(</span><span
+                                            class="n">fp</span><span class="p">)</span>
+<span class="n">df_comments</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span
+                                            class="n">DataFrame</span><span class="p">(</span><span class="n">comment_list</span><span
+                                            class="p">)</span>
+<span class="n">df_comments</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span
+                                            class="n">df_comments</span><span class="o">.</span><span
+                                            class="n">game_id</span><span class="o">.</span><span
+                                            class="n">nunique</span><span class="p">()</span>
+</pre>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="output_wrapper">
+                        <div class="output">
+
+
+                            <div class="output_area">
+
+                                <div class="prompt output_prompt">Out[96]:</div>
+
+
+                                <div class="output_text output_subarea output_execute_result">
+                                    <pre>((2516474, 4), 14987)</pre>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="cell border-box-sizing code_cell rendered">
+                    <div class="input">
+                        <div class="prompt input_prompt">In&nbsp;[97]:</div>
+                        <div class="inner_cell">
+                            <div class="input_area">
+                                <div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span
+                                        class="nb">open</span><span class="p">(</span><span class="s1">&#39;../src/data/user_ratings_190511.json&#39;</span><span
+                                        class="p">,</span> <span class="s1">&#39;r&#39;</span><span
+                                        class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span
+                                        class="p">:</span>
+    <span class="n">rating_list</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span
+                                            class="n">load</span><span class="p">(</span><span class="n">fp</span><span
+                                            class="p">)</span>
+<span class="n">df_ratings</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span
+                                            class="n">DataFrame</span><span class="p">(</span><span class="n">rating_list</span><span
+                                            class="p">)</span>
+<span class="n">df_ratings</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span
+                                            class="n">df_ratings</span><span class="o">.</span><span
+                                            class="n">game_id</span><span class="o">.</span><span
+                                            class="n">nunique</span><span class="p">()</span>
+</pre>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="output_wrapper">
+                        <div class="output">
+
+
+                            <div class="output_area">
+
+                                <div class="prompt output_prompt">Out[97]:</div>
+
+
+                                <div class="output_text output_subarea output_execute_result">
+                                    <pre>((12753513, 3), 14993)</pre>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="cell border-box-sizing text_cell rendered">
+                    <div class="prompt input_prompt">
+                    </div>
+                    <div class="inner_cell">
+                        <div class="text_cell_render border-box-sizing rendered_html">
+                            <h1 id="Merge-Data">Merge Data<a class="anchor-link" href="#Merge-Data">&#182;</a></h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="cell border-box-sizing code_cell rendered">
+                    <div class="input">
+                        <div class="prompt input_prompt">In&nbsp;[22]:</div>
+                        <div class="inner_cell">
+                            <div class="input_area">
+                                <div class=" highlight hl-ipython3"><pre><span></span><span
+                                        class="n">df_game</span><span class="o">.</span><span class="n">columns</span>
+</pre>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="output_wrapper">
+                        <div class="output">
+
+
+                            <div class="output_area">
+
+                                <div class="prompt output_prompt">Out[22]:</div>
+
+
+                                <div class="output_text output_subarea output_execute_result">
+<pre>Index([&#39;AbstractGameRank&#39;, &#39;BoardGameRank&#39;, &#39;Children&#39;sGameRank&#39;,
+       &#39;CustomizableRank&#39;, &#39;FamilyGameRank&#39;, &#39;PartyGameRank&#39;, &#39;RPGItemRank&#39;,
+       &#39;StrategyGameRank&#39;, &#39;ThematicRank&#39;, &#39;WarGameRank&#39;, &#39;average&#39;,
+       &#39;averageweight&#39;, &#39;bayesaverage&#39;, &#39;boardgameartist&#39;, &#39;boardgamecategory&#39;,
+       &#39;boardgamecompilation&#39;, &#39;boardgamedesigner&#39;, &#39;boardgameexpansion&#39;,
+       &#39;boardgamefamily&#39;, &#39;boardgameimplementation&#39;, &#39;boardgameintegration&#39;,
+       &#39;boardgamemechanic&#39;, &#39;boardgamepublisher&#39;, &#39;game_id&#39;, &#39;maxplayers&#39;,
+       &#39;maxplaytime&#39;, &#39;median&#39;, &#39;minage&#39;, &#39;minplayers&#39;, &#39;minplaytime&#39;, &#39;name&#39;,
+       &#39;numcomments&#39;, &#39;numweights&#39;, &#39;owned&#39;, &#39;playingtime&#39;, &#39;stddev&#39;,
+       &#39;trading&#39;, &#39;url&#39;, &#39;usersrated&#39;, &#39;wanting&#39;, &#39;wishing&#39;, &#39;yearpublished&#39;],
+      dtype=&#39;object&#39;)</pre>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="cell border-box-sizing code_cell rendered">
+                    <div class="input">
+                        <div class="prompt input_prompt">In&nbsp;[53]:</div>
+                        <div class="inner_cell">
+                            <div class="input_area">
+                                <div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_ratings</span> <span
+                                        class="o">=</span> <span class="n">df_ratings</span><span
+                                        class="o">.</span><span class="n">merge</span><span class="p">(</span><span
+                                        class="n">df_game</span><span class="p">[[</span><span
+                                        class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;game_id&#39;</span><span
+                                        class="p">,</span> <span class="s1">&#39;BoardGameRank&#39;</span><span
+                                        class="p">]],</span> <span class="n">how</span><span class="o">=</span><span
+                                        class="s1">&#39;left&#39;</span><span class="p">,</span> <span
+                                        class="n">on</span><span class="o">=</span><span
+                                        class="s1">&#39;game_id&#39;</span><span class="p">)</span>
+<span class="n">df_comments</span> <span class="o">=</span> <span class="n">df_comments</span><span
+                                            class="o">.</span><span class="n">merge</span><span class="p">(</span><span
+                                            class="n">df_game</span><span class="p">[[</span><span class="s1">&#39;name&#39;</span><span
+                                            class="p">,</span> <span class="s1">&#39;game_id&#39;</span><span class="p">,</span> <span
+                                            class="s1">&#39;BoardGameRank&#39;</span><span class="p">]],</span> <span
+                                            class="n">how</span><span class="o">=</span><span
+                                            class="s1">&#39;left&#39;</span><span class="p">,</span> <span
+                                            class="n">on</span><span class="o">=</span><span class="s1">&#39;game_id&#39;</span><span
+                                            class="p">)</span>
+</pre>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="cell border-box-sizing code_cell rendered">
+                    <div class="input">
+                        <div class="prompt input_prompt">In&nbsp;[54]:</div>
+                        <div class="inner_cell">
+                            <div class="input_area">
+                                <div class=" highlight hl-ipython3"><pre><span></span><span
+                                        class="n">df_ratings</span><span class="p">[[</span><span class="s1">&#39;game_id&#39;</span><span
+                                        class="p">,</span> <span class="s1">&#39;BoardGameRank&#39;</span><span
+                                        class="p">,</span> <span class="s1">&#39;rating&#39;</span><span
+                                        class="p">]]</span><span class="o">.</span><span class="n">groupby</span><span
+                                        class="p">([</span><span class="s1">&#39;game_id&#39;</span><span
+                                        class="p">,</span> <span class="s1">&#39;BoardGameRank&#39;</span><span
+                                        class="p">])</span><span class="o">.</span><span class="n">count</span><span
+                                        class="p">()</span><span class="o">.</span><span
+                                        class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;rating&#39;</span><span
+                                        class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span
+                                        class="kc">False</span><span class="p">)</span><span class="o">.</span><span
+                                        class="n">head</span><span class="p">()</span>
+</pre>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="output_wrapper">
+                        <div class="output">
+
+
+                            <div class="output_area">
+
+                                <div class="prompt output_prompt">Out[54]:</div>
+
+
+                                <div class="output_html rendered_html output_subarea output_execute_result">
+                                    <div>
+                                        <style scoped>
+                                            .dataframe tbody tr th:only-of-type {
+                                                vertical-align: middle;
+                                            }
+
+                                            .dataframe tbody tr th {
+                                                vertical-align: top;
+                                            }
+
+                                            .dataframe thead th {
+                                                text-align: right;
+                                            }
+                                        </style>
+                                        <table border="1" class="dataframe">
+                                            <thead>
+                                            <tr style="text-align: right;">
+                                                <th></th>
+                                                <th></th>
+                                                <th>rating</th>
+                                            </tr>
+                                            <tr>
+                                                <th>game_id</th>
+                                                <th>BoardGameRank</th>
+                                                <th></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <th>13</th>
+                                                <th>325</th>
+                                                <td>85000</td>
+                                            </tr>
+                                            <tr>
+                                                <th>822</th>
+                                                <th>150</th>
+                                                <td>84600</td>
+                                            </tr>
+                                            <tr>
+                                                <th>30549</th>
+                                                <th>75</th>
+                                                <td>83000</td>
+                                            </tr>
+                                            <tr>
+                                                <th>68448</th>
+                                                <th>45</th>
+                                                <td>68800</td>
+                                            </tr>
+                                            <tr>
+                                                <th>36218</th>
+                                                <th>76</th>
+                                                <td>68100</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="cell border-box-sizing text_cell rendered">
+                    <div class="prompt input_prompt">
+                    </div>
+                    <div class="inner_cell">
+                        <div class="text_cell_render border-box-sizing rendered_html">
+                            <h1 id="Create-&quot;sentences&quot;-from-board-game-categories">Create "sentences" from
+                                board game categories<a class="anchor-link"
+                                                        href="#Create-&quot;sentences&quot;-from-board-game-categories">&#182;</a>
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="cell border-box-sizing code_cell rendered">
+                    <div class="input">
+                        <div class="prompt input_prompt">In&nbsp;[70]:</div>
+                        <div class="inner_cell">
+                            <div class="input_area">
+                                <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># col_list = [&#39;boardgameartist&#39;, &#39;boardgamedesigner&#39;, &#39;boardgamecategory&#39;, &#39;boardgamefamily&#39;, &#39;boardgamemechanic&#39;, &#39;boardgamepublisher&#39;, &#39;name&#39;, &#39;game_id&#39;]</span>
+<span class="n">col_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;boardgamedesigner&#39;</span><span
+                                            class="p">,</span> <span class="s1">&#39;boardgamecategory&#39;</span><span
+                                            class="p">,</span> <span class="s1">&#39;boardgamefamily&#39;</span><span
+                                            class="p">,</span> <span class="s1">&#39;boardgamemechanic&#39;</span><span
+                                            class="p">,</span> <span class="s1">&#39;name&#39;</span><span
+                                            class="p">,</span> <span class="s1">&#39;game_id&#39;</span><span class="p">]</span>
+<span class="n">df_game_vecs</span> <span class="o">=</span> <span class="n">df_game</span><span class="p">[</span><span
+                                            class="n">col_list</span><span class="p">]</span><span
+                                            class="o">.</span><span class="n">copy</span><span class="p">()</span>
+</pre>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="cell border-box-sizing code_cell rendered">
+                    <div class="input">
+                        <div class="prompt input_prompt">In&nbsp;[71]:</div>
+                        <div class="inner_cell">
+                            <div class="input_area">
+                                <div class=" highlight hl-ipython3"><pre><span></span><span
+                                        class="n">df_game_vecs</span><span class="p">[</span><span class="s1">&#39;docs&#39;</span><span
+                                        class="p">]</span> <span class="o">=</span> <span
+                                        class="n">df_game_vecs</span><span class="p">[</span><span
+                                        class="n">col_list</span><span class="p">[</span><span class="mi">0</span><span
+                                        class="p">]]</span>
+<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">col_list</span><span
+                                            class="p">[</span><span class="mi">1</span><span class="p">:</span><span
+                                            class="o">-</span><span class="mi">2</span><span class="p">]:</span>
+    <span class="n">df_game_vecs</span><span class="p">[</span><span class="s1">&#39;docs&#39;</span><span
+                                            class="p">]</span> <span class="o">=</span> <span
+                                            class="n">df_game_vecs</span><span class="p">[</span><span class="s1">&#39;docs&#39;</span><span
+                                            class="p">]</span> <span class="o">+</span> <span
+                                            class="n">df_game_vecs</span><span class="p">[</span><span
+                                            class="n">col</span><span class="p">]</span>
+<span class="n">df_game_vecs</span><span class="p">[</span><span class="s1">&#39;id_names&#39;</span><span
+                                            class="p">]</span> <span class="o">=</span> <span
+                                            class="n">df_game_vecs</span><span class="o">.</span><span
+                                            class="n">name</span> <span class="o">+</span> <span
+                                            class="n">df_game_vecs</span><span class="o">.</span><span
+                                            class="n">game_id</span>
+
+</pre>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="cell border-box-sizing code_cell rendered">
+                    <div class="input">
+                        <div class="prompt input_prompt">In&nbsp;[75]:</div>
+                        <div class="inner_cell">
+                            <div class="input_area">
+                                <div class=" highlight hl-ipython3"><pre><span></span><span class="n">d2v</span> <span
+                                        class="o">=</span> <span class="n">EmbedText</span><span class="p">()</span>
+<span class="n">d2v</span><span class="o">.</span><span class="n">d2v_setup</span><span class="p">(</span><span
+                                            class="n">df</span> <span class="o">=</span> <span
+                                            class="n">df_game_vecs</span><span class="p">,</span> <span class="n">text_col</span><span
+                                            class="o">=</span><span class="s1">&#39;docs&#39;</span><span
+                                            class="p">,</span> <span class="n">class_col</span><span
+                                            class="o">=</span><span class="s1">&#39;name&#39;</span><span
+                                            class="p">)</span>
+<span class="n">d2v</span><span class="o">.</span><span class="n">d2v_fit</span><span class="p">()</span>
+</pre>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="output_wrapper">
+                        <div class="output">
+
+
+                            <div class="output_area">
+
+                                <div class="prompt"></div>
+
+
+                                <div class="output_subarea output_stream output_stderr output_text">
+<pre>
+  0%|          | 0/10 [00:00&lt;?, ?it/s]
+ 10%|█         | 1/10 [00:02&lt;00:21,  2.37s/it]
+ 20%|██        | 2/10 [00:04&lt;00:18,  2.37s/it]
+ 30%|███       | 3/10 [00:07&lt;00:16,  2.37s/it]
+ 40%|████      | 4/10 [00:09&lt;00:14,  2.37s/it]
+ 50%|█████     | 5/10 [00:11&lt;00:11,  2.38s/it]
+ 60%|██████    | 6/10 [00:14&lt;00:09,  2.38s/it]
+ 70%|███████   | 7/10 [00:16&lt;00:07,  2.38s/it]
+ 80%|████████  | 8/10 [00:19&lt;00:04,  2.37s/it]
+ 90%|█████████ | 9/10 [00:21&lt;00:02,  2.37s/it]
+100%|██████████| 10/10 [00:23&lt;00:00,  2.38s/it]</pre>
+                                </div>
+                            </div>
+
+                            <div class="output_area">
+
+                                <div class="prompt output_prompt">Out[75]:</div>
+
+
+                                <div class="output_text output_subarea output_execute_result">
+                                    <pre>&lt;gensim.models.doc2vec.Doc2Vec at 0x7fc5999d7160&gt;</pre>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="cell border-box-sizing code_cell rendered">
+                    <div class="input">
+                        <div class="prompt input_prompt">In&nbsp;[84]:</div>
+                        <div class="inner_cell">
+                            <div class="input_area">
+                                <div class=" highlight hl-ipython3"><pre><span></span><span class="n">d2v</span><span
+                                        class="o">.</span><span class="n">model_d2v</span><span class="o">.</span><span
+                                        class="n">docvecs</span><span class="o">.</span><span
+                                        class="n">most_similar</span><span class="p">(</span><span class="s1">&#39;7 Wonders&#39;</span><span
+                                        class="p">,</span> <span class="n">topn</span><span class="o">=</span><span
+                                        class="mi">20</span><span class="p">)</span>
+</pre>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="output_wrapper">
+                        <div class="output">
+
+
+                            <div class="output_area">
+
+                                <div class="prompt output_prompt">Out[84]:</div>
+
+
+                                <div class="output_text output_subarea output_execute_result">
+<pre>[(&#39;7 Wonders Duel&#39;, 0.9467664361000061),
+ (&#39;Âge de Bronze&#39;, 0.7837046980857849),
+ (&#39;Tides of Time&#39;, 0.7803778648376465),
+ (&#39;Hadara&#39;, 0.7733749747276306),
+ (&#39;Peloponnes Card Game&#39;, 0.7644440531730652),
+ (&#39;The Sands of Time&#39;, 0.7624205350875854),
+ (&#34;A Fool&#39;s Fortune&#34;, 0.7558571100234985),
+ (&#39;Polis&#39;, 0.7505557537078857),
+ (&#39;Sobek&#39;, 0.7326430678367615),
+ (&#39;Elysium&#39;, 0.7305032014846802),
+ (&#39;Big Monster&#39;, 0.7264267206192017),
+ (&#39;Villannex&#39;, 0.7263643741607666),
+ (&#39;Diesel Demolition Derby&#39;, 0.7240949869155884),
+ (&#39;Innovation&#39;, 0.7218561768531799),
+ (&#39;Minute Realms&#39;, 0.7193061113357544),
+ (&#39;Pentos&#39;, 0.718259871006012),
+ (&#39;Hexemonia&#39;, 0.7176440954208374),
+ (&#39;CIV: Carta Impera Victoria&#39;, 0.7169272899627686),
+ (&#39;Uchronia&#39;, 0.7127091884613037),
+ (&#39;Citadels&#39;, 0.7122185230255127)]</pre>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="cell border-box-sizing code_cell rendered">
+                    <div class="input">
+                        <div class="prompt input_prompt">In&nbsp;[87]:</div>
+                        <div class="inner_cell">
+                            <div class="input_area">
+                                <div class=" highlight hl-ipython3"><pre><span></span><span
+                                        class="n">d2v_array</span> <span class="o">=</span> <span
+                                        class="n">d2v</span><span class="o">.</span><span
+                                        class="n">model_d2v</span><span class="o">.</span><span class="n">docvecs</span><span
+                                        class="o">.</span><span class="n">vectors_docs</span><span
+                                        class="p">[:</span><span class="mi">2000</span><span class="p">,:]</span>
+<span class="n">tsne</span> <span class="o">=</span> <span class="n">TSNE</span><span class="p">(</span><span class="n">n_components</span><span
+                                            class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">X_tsne</span> <span class="o">=</span> <span class="n">tsne</span><span class="o">.</span><span
+                                            class="n">fit_transform</span><span class="p">(</span><span class="n">d2v_array</span><span
+                                            class="p">)</span>
+</pre>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="cell border-box-sizing code_cell rendered">
+                    <div class="input">
+                        <div class="prompt input_prompt">In&nbsp;[95]:</div>
+                        <div class="inner_cell">
+                            <div class="input_area">
+                                <div class=" highlight hl-ipython3"><pre><span></span><span
+                                        class="n">vect_size</span> <span class="o">=</span> <span class="mi">2000</span>
+<span class="n">trace1</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span
+                                            class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">X_tsne</span><span class="p">[:,</span><span
+                                            class="mi">0</span><span class="p">],</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">X_tsne</span><span class="p">[:,</span><span
+                                            class="mi">1</span><span class="p">],</span>
+    <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;text&#39;</span><span class="p">,</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">d2v</span><span class="o">.</span><span
+                                            class="n">model_d2v</span><span class="o">.</span><span
+                                            class="n">docvecs</span><span class="o">.</span><span class="n">offset2doctag</span><span
+                                            class="p">[:</span><span class="n">vect_size</span><span class="p">],</span>
+    <span class="n">textposition</span><span class="o">=</span><span class="s1">&#39;bottom center&#39;</span><span
+                                            class="p">,</span>
+<span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">trace1</span><span
+                                            class="p">]</span>
+<span class="n">layout</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Layout</span><span
+                                            class="p">(</span>
+    <span class="n">margin</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+        <span class="n">l</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">r</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">b</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">t</span><span class="o">=</span><span class="mi">0</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+<span class="n">config</span> <span class="o">=</span> <span class="p">{</span><span
+                                            class="s1">&#39;scrollZoom&#39;</span><span class="p">:</span> <span
+                                            class="kc">True</span><span class="p">}</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span
+                                            class="p">(</span><span class="n">data</span><span class="o">=</span><span
+                                            class="n">data</span><span class="p">,</span> <span
+                                            class="n">layout</span><span class="o">=</span><span class="n">layout</span><span
+                                            class="p">)</span>
+<span class="n">py</span><span class="o">.</span><span class="n">iplot</span><span class="p">(</span><span
+                                            class="n">fig</span><span class="p">,</span> <span class="n">filename</span><span
+                                            class="o">=</span><span class="s1">&#39;d2v_bgg&#39;</span><span
+                                            class="p">,</span> <span class="n">config</span><span
+                                            class="o">=</span><span class="n">config</span><span class="p">)</span>
+</pre>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="output_wrapper">
+                        <div class="output">
+
+
+                            <div class="output_area">
+
+                                <div class="prompt"></div>
+
+
+                                <div class="output_subarea output_stream output_stderr output_text">
+<pre>/home/msnow/miniconda3/envs/data_sci/lib/python3.7/site-packages/IPython/core/display.py:689: UserWarning:
+
+Consider using IPython.display.IFrame instead
+
+</pre>
+                                </div>
+                            </div>
+
+                            <div class="output_area">
+
+                                <div class="prompt output_prompt">Out[95]:</div>
+
+
+                                <div class="output_html rendered_html output_subarea output_execute_result">
+                                    <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless"
+                                            src="https://plot.ly/~mseinstein/67.embed" height="525px"
+                                            width="100%"></iframe>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="cell border-box-sizing code_cell rendered">
+                    <div class="input">
+                        <div class="prompt input_prompt">In&nbsp;[18]:</div>
+                        <div class="inner_cell">
+                            <div class="input_area">
+                                <div class=" highlight hl-ipython3"><pre><span></span><span
+                                        class="n">d2v_array</span> <span class="o">=</span> <span
+                                        class="n">d2v</span><span class="o">.</span><span
+                                        class="n">model_d2v</span><span class="o">.</span><span class="n">docvecs</span><span
+                                        class="o">.</span><span class="n">vectors_docs</span>
+
+<span class="nb">type</span><span class="p">(</span><span class="n">d2v_array</span><span class="p">)</span>
+</pre>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="output_wrapper">
+                        <div class="output">
+
+
+                            <div class="output_area">
+
+                                <div class="prompt output_prompt">Out[18]:</div>
+
+
+                                <div class="output_text output_subarea output_execute_result">
+                                    <pre>numpy.ndarray</pre>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="cell border-box-sizing code_cell rendered">
+                    <div class="input">
+                        <div class="prompt input_prompt">In&nbsp;[14]:</div>
+                        <div class="inner_cell">
+                            <div class="input_area">
+                                <div class=" highlight hl-ipython3"><pre><span></span><span class="n">aa</span> <span
+                                        class="o">=</span> <span class="n">d2v</span><span class="o">.</span><span
+                                        class="n">model_d2v</span><span class="o">.</span><span class="n">wv</span><span
+                                        class="o">.</span><span class="n">vectors</span>
+</pre>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="cell border-box-sizing code_cell rendered">
+                    <div class="input">
+                        <div class="prompt input_prompt">In&nbsp;[19]:</div>
+                        <div class="inner_cell">
+                            <div class="input_area">
+                                <div class=" highlight hl-ipython3"><pre><span></span><span
+                                        class="n">d2v_array</span><span class="o">.</span><span class="n">shape</span>
+</pre>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="output_wrapper">
+                        <div class="output">
+
+
+                            <div class="output_area">
+
+                                <div class="prompt output_prompt">Out[19]:</div>
+
+
+                                <div class="output_text output_subarea output_execute_result">
+                                    <pre>(29744, 100)</pre>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="cell border-box-sizing code_cell rendered">
+                    <div class="input">
+                        <div class="prompt input_prompt">In&nbsp;[100]:</div>
+                        <div class="inner_cell">
+                            <div class="input_area">
+                                <div class=" highlight hl-ipython3"><pre><span></span><span class="n">d2v</span><span
+                                        class="o">.</span><span class="n">model_d2v</span><span class="o">.</span><span
+                                        class="n">docvecs</span><span class="o">.</span>
+</pre>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="output_wrapper">
+                        <div class="output">
+
+
+                            <div class="output_area">
+
+                                <div class="prompt output_prompt">Out[100]:</div>
+
+
+                                <div class="output_text output_subarea output_execute_result">
+<pre>[(324, 0.9941948652267456),
+ (1685, 0.8426946401596069),
+ (&#39;Catan: Portable Edition&#39;, 0.8363494873046875),
+ (&#39;Struggle for Catan&#39;, 0.8137760162353516),
+ (2636, 0.8131700754165649),
+ (821, 0.7774920463562012),
+ (&#39;Catan Card Game&#39;, 0.7761682868003845),
+ (6402, 0.738957941532135),
+ (5765, 0.738196849822998),
+ (&#39;Catan: Family Edition&#39;, 0.7370287775993347),
+ (&#39;Catan Dice Game&#39;, 0.7352598905563354),
+ (&#39;Star Trek: Catan&#39;, 0.734115719795227),
+ (897, 0.7331305742263794),
+ (&#39;Catan Histories: Rise of the Inkas&#39;, 0.7316294312477112),
+ (4751, 0.729112982749939),
+ (4103, 0.7221580743789673),
+ (&#39;Ataxx&#39;, 0.7213221788406372),
+ (11963, 0.7177346348762512),
+ (&#39;Catan: Traveler – Compact Edition&#39;, 0.7165348529815674),
+ (&#39;Rivals for Catan&#39;, 0.7152861952781677)]</pre>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="cell border-box-sizing code_cell rendered">
+                    <div class="input">
+                        <div class="prompt input_prompt">In&nbsp;[97]:</div>
+                        <div class="inner_cell">
+                            <div class="input_area">
+                                <div class=" highlight hl-ipython3"><pre><span></span><span
+                                        class="n">df_game_vecs</span><span class="o">.</span><span
+                                        class="n">loc</span><span class="p">[</span><span
+                                        class="n">df_game_vecs</span><span class="o">.</span><span class="n">name</span><span
+                                        class="o">==</span><span class="mi">74</span><span class="p">]</span>
+</pre>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="output_wrapper">
+                        <div class="output">
+
+
+                            <div class="output_area">
+
+                                <div class="prompt output_prompt">Out[97]:</div>
+
+
+                                <div class="output_html rendered_html output_subarea output_execute_result">
+                                    <div>
+                                        <style scoped>
+                                            .dataframe tbody tr th:only-of-type {
+                                                vertical-align: middle;
+                                            }
+
+                                            .dataframe tbody tr th {
+                                                vertical-align: top;
+                                            }
+
+                                            .dataframe thead th {
+                                                text-align: right;
+                                            }
+                                        </style>
+                                        <table border="1" class="dataframe">
+                                            <thead>
+                                            <tr style="text-align: right;">
+                                                <th></th>
+                                                <th>boardgameartist</th>
+                                                <th>boardgamedesigner</th>
+                                                <th>boardgamecategory</th>
+                                                <th>boardgamefamily</th>
+                                                <th>boardgamemechanic</th>
+                                                <th>boardgamepublisher</th>
+                                                <th>name</th>
+                                                <th>game_id</th>
+                                                <th>docs</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="cell border-box-sizing code_cell rendered">
+                    <div class="input">
+                        <div class="prompt input_prompt">In&nbsp;[58]:</div>
+                        <div class="inner_cell">
+                            <div class="input_area">
+                                <div class=" highlight hl-ipython3"><pre><span></span><span
+                                        class="n">df_game</span><span class="o">.</span><span class="n">head</span><span
+                                        class="p">(</span><span class="mi">2</span><span class="p">)</span><span
+                                        class="o">.</span><span class="n">T</span>
+</pre>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="output_wrapper">
+                        <div class="output">
+
+
+                            <div class="output_area">
+
+                                <div class="prompt output_prompt">Out[58]:</div>
+
+
+                                <div class="output_html rendered_html output_subarea output_execute_result">
+                                    <div>
+                                        <style scoped>
+                                            .dataframe tbody tr th:only-of-type {
+                                                vertical-align: middle;
+                                            }
+
+                                            .dataframe tbody tr th {
+                                                vertical-align: top;
+                                            }
+
+                                            .dataframe thead th {
+                                                text-align: right;
+                                            }
+                                        </style>
+                                        <table border="1" class="dataframe">
+                                            <thead>
+                                            <tr style="text-align: right;">
+                                                <th></th>
+                                                <th>0</th>
+                                                <th>1</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <th>AbstractGameRank</th>
+                                                <td>NaN</td>
+                                                <td>NaN</td>
+                                            </tr>
+                                            <tr>
+                                                <th>AccessoryRank</th>
+                                                <td>NaN</td>
+                                                <td>NaN</td>
+                                            </tr>
+                                            <tr>
+                                                <th>AmigaRank</th>
+                                                <td>NaN</td>
+                                                <td>NaN</td>
+                                            </tr>
+                                            <tr>
+                                                <th>ArcadeRank</th>
+                                                <td>NaN</td>
+                                                <td>NaN</td>
+                                            </tr>
+                                            <tr>
+                                                <th>AtariSTRank</th>
+                                                <td>NaN</td>
+                                                <td>NaN</td>
+                                            </tr>
+                                            <tr>
+                                                <th>BoardGameRank</th>
+                                                <td>1</td>
+                                                <td>2</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Children'sGameRank</th>
+                                                <td>NaN</td>
+                                                <td>NaN</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Commodore64Rank</th>
+                                                <td>NaN</td>
+                                                <td>NaN</td>
+                                            </tr>
+                                            <tr>
+                                                <th>CustomizableRank</th>
+                                                <td>NaN</td>
+                                                <td>NaN</td>
+                                            </tr>
+                                            <tr>
+                                                <th>FamilyGameRank</th>
+                                                <td>NaN</td>
+                                                <td>NaN</td>
+                                            </tr>
+                                            <tr>
+                                                <th>PartyGameRank</th>
+                                                <td>NaN</td>
+                                                <td>NaN</td>
+                                            </tr>
+                                            <tr>
+                                                <th>RPGItemRank</th>
+                                                <td>NaN</td>
+                                                <td>NaN</td>
+                                            </tr>
+                                            <tr>
+                                                <th>StrategyGameRank</th>
+                                                <td>1</td>
+                                                <td>2</td>
+                                            </tr>
+                                            <tr>
+                                                <th>ThematicRank</th>
+                                                <td>1</td>
+                                                <td>2</td>
+                                            </tr>
+                                            <tr>
+                                                <th>VideoGameRank</th>
+                                                <td>NaN</td>
+                                                <td>NaN</td>
+                                            </tr>
+                                            <tr>
+                                                <th>WarGameRank</th>
+                                                <td>NaN</td>
+                                                <td>NaN</td>
+                                            </tr>
+                                            <tr>
+                                                <th>average</th>
+                                                <td>8.90224</td>
+                                                <td>8.64276</td>
+                                            </tr>
+                                            <tr>
+                                                <th>averageweight</th>
+                                                <td>3.7893</td>
+                                                <td>2.8278</td>
+                                            </tr>
+                                            <tr>
+                                                <th>bayesaverage</th>
+                                                <td>8.60944</td>
+                                                <td>8.48849</td>
+                                            </tr>
+                                            <tr>
+                                                <th>boardgameartist</th>
+                                                <td>[Alexandr Elichev, Josh T. McDowell, Alvaro Ne...</td>
+                                                <td>[Chris Quilliams]</td>
+                                            </tr>
+                                            <tr>
+                                                <th>boardgamecategory</th>
+                                                <td>[Adventure, Exploration, Fantasy, Fighting, Mi...</td>
+                                                <td>[Environmental, Medical]</td>
+                                            </tr>
+                                            <tr>
+                                                <th>boardgamecompilation</th>
+                                                <td>[]</td>
+                                                <td>[]</td>
+                                            </tr>
+                                            <tr>
+                                                <th>boardgamedesigner</th>
+                                                <td>[Isaac Childres]</td>
+                                                <td>[Rob Daviau, Matt Leacock]</td>
+                                            </tr>
+                                            <tr>
+                                                <th>boardgameexpansion</th>
+                                                <td>[Gloomhaven: Forgotten Circles, Gloomhaven: So...</td>
+                                                <td>[]</td>
+                                            </tr>
+                                            <tr>
+                                                <th>boardgamefamily</th>
+                                                <td>[Campaign Games, Components: Miniatures, Crowd...</td>
+                                                <td>[Campaign Games, Legacy, Pandemic]</td>
+                                            </tr>
+                                            <tr>
+                                                <th>boardgameimplementation</th>
+                                                <td>[]</td>
+                                                <td>[Pandemic Legacy: Season 2, Pandemic]</td>
+                                            </tr>
+                                            <tr>
+                                                <th>boardgameintegration</th>
+                                                <td>[]</td>
+                                                <td>[]</td>
+                                            </tr>
+                                            <tr>
+                                                <th>boardgamemechanic</th>
+                                                <td>[Campaign / Battle Card Driven, Cooperative Pl...</td>
+                                                <td>[Action Point Allowance System, Cooperative Pl...</td>
+                                            </tr>
+                                            <tr>
+                                                <th>boardgamepublisher</th>
+                                                <td>[Cephalofair Games, Albi, Asmodee, Feuerland S...</td>
+                                                <td>[Z-Man Games, Inc., Asterion Press, Devir, Fil...</td>
+                                            </tr>
+                                            <tr>
+                                                <th>game_id</th>
+                                                <td>174430</td>
+                                                <td>161936</td>
+                                            </tr>
+                                            <tr>
+                                                <th>maxplayers</th>
+                                                <td>4</td>
+                                                <td>4</td>
+                                            </tr>
+                                            <tr>
+                                                <th>maxplaytime</th>
+                                                <td>120</td>
+                                                <td>60</td>
+                                            </tr>
+                                            <tr>
+                                                <th>median</th>
+                                                <td>0</td>
+                                                <td>0</td>
+                                            </tr>
+                                            <tr>
+                                                <th>minage</th>
+                                                <td>12</td>
+                                                <td>13</td>
+                                            </tr>
+                                            <tr>
+                                                <th>minplayers</th>
+                                                <td>1</td>
+                                                <td>2</td>
+                                            </tr>
+                                            <tr>
+                                                <th>minplaytime</th>
+                                                <td>60</td>
+                                                <td>60</td>
+                                            </tr>
+                                            <tr>
+                                                <th>name</th>
+                                                <td>Gloomhaven</td>
+                                                <td>Pandemic Legacy: Season 1</td>
+                                            </tr>
+                                            <tr>
+                                                <th>numcomments</th>
+                                                <td>4908</td>
+                                                <td>4955</td>
+                                            </tr>
+                                            <tr>
+                                                <th>numweights</th>
+                                                <td>1063</td>
+                                                <td>871</td>
+                                            </tr>
+                                            <tr>
+                                                <th>owned</th>
+                                                <td>40636</td>
+                                                <td>49353</td>
+                                            </tr>
+                                            <tr>
+                                                <th>playingtime</th>
+                                                <td>120</td>
+                                                <td>60</td>
+                                            </tr>
+                                            <tr>
+                                                <th>stddev</th>
+                                                <td>1.60282</td>
+                                                <td>1.60869</td>
+                                            </tr>
+                                            <tr>
+                                                <th>trading</th>
+                                                <td>208</td>
+                                                <td>236</td>
+                                            </tr>
+                                            <tr>
+                                                <th>url</th>
+                                                <td>https://boardgamegeek.com/boardgame/174430/glo...</td>
+                                                <td>https://boardgamegeek.com/boardgame/161936/pan...</td>
+                                            </tr>
+                                            <tr>
+                                                <th>usersrated</th>
+                                                <td>24755</td>
+                                                <td>31031</td>
+                                            </tr>
+                                            <tr>
+                                                <th>wanting</th>
+                                                <td>1341</td>
+                                                <td>779</td>
+                                            </tr>
+                                            <tr>
+                                                <th>wishing</th>
+                                                <td>12117</td>
+                                                <td>8472</td>
+                                            </tr>
+                                            <tr>
+                                                <th>yearpublished</th>
+                                                <td>2017</td>
+                                                <td>2015</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

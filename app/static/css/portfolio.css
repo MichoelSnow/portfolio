@@ -1,0 +1,51 @@
+.main_title p.top_text {
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 500;
+    position: relative;
+    margin-bottom: 10px
+}
+
+.main_title p.top_text span {
+    position: relative;
+    top: -2px;
+    display: inline-block;
+    margin-left: 5px;
+    width: 80px;
+    height: 4px;
+    background: rgba(237, 35, 159, 0.6);
+    filter: blur(4px);
+    -o-filter: blur(4px);
+    -ms-filter: blur(4px);
+    -moz-filter: blur(4px);
+    -webkit-filter: blur(4px);
+    border-radius: 5px
+}
+
+.main_title h2 {
+    font-size: 42px;
+    font-weight: 700;
+    margin-bottom: 0px;
+    line-height: 52px;
+    text-transform: capitalize
+}
+
+
+.overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%
+}
+
+/*.short_info h1, h2, h3, h4 {*/
+/*    color: #ffffff;*/
+/*}*/
+
+
+/*h1, h2, h3, h4, h5, h6 {*/
+/*    font-family: "Roboto", sans-serif;*/
+/*    font-weight: 700;*/
+/*    color: #05364d*/
+/*}*/

@@ -1,0 +1,229 @@
+{% extends "base.html" %}
+
+
+{% block head_content %}
+     <link rel="stylesheet" href="{{ url_for('static', filename='css/portfolio.css') }}" type="text/css">
+     <link rel="stylesheet" href="{{ url_for('static', filename='scss/folio.css') }}" type="text/css">
+
+
+{% endblock %}
+
+
+{% block body_content %}
+
+{#    <div class="container-fluid p-0">#}
+{#       <section class="content-section bg-light" id="skills">#}
+            <section class="p-3 d-flex flex-column bg-light" id="experience">
+{#                <div class="container-fluid text-center">#}
+{#                <div class="">#}
+{#                    <div class="row">#}
+{#                        <div class="col-lg-12 mx-auto">#}
+{#                        <div class="col-auto mx-auto">#}
+                            <h3 class="mb-4 text-center">Filters</h3>
+{#                            <div class="container-fluid">#}
+                            <div class="container-fluid col-auto mx-auto">
+{#                                <div class="row justify-content-center">#}
+                                <div class="row justify-content-center ">
+{#                                    <div class="col-lg-12">#}
+{#                                        <div class="row">#}
+                                            <div class="col-auto thin-margin">
+                                                <div class="single-brand-item d-table " data-filter=".python">
+                                                    <div class="d-table-cell text-center">
+                                                        <img class="logo"
+                                                             src="{{ url_for('static', filename='img/python-2.svg') }}"
+                                                             alt="">
+                                                        <h3 class="text-wrapper">Python</h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+{#                                            <div class="col-lg-2 col-md-4 col-sm-6">#}
+                                            <div class="col-auto thin-margin">
+                                                <div class="single-brand-item d-table" data-filter=".sklearn">
+                                                    <div class="d-table-cell text-center">
+                                                        <img class="logo"
+                                                             src="{{ url_for('static', filename='img/scikit-learn-2.svg') }}"
+                                                             alt="">
+                                                        <h3 class="text-wrapper">Scikit Learn</h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-auto thin-margin">
+                                                <div class="single-brand-item d-table" data-filter=".jup">
+                                                    <div class="d-table-cell text-center">
+                                                        <img class="logo"
+                                                             src="{{ url_for('static', filename='img/jupyter-2.svg') }}"
+                                                             alt="">
+                                                        <h3 class="text-wrapper">Jupyter</h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-auto thin-margin">
+                                                <div class="single-brand-item d-table" data-filter=".pytorch">
+                                                    <div class="d-table-cell text-center">
+                                                        <img class="logo"
+                                                             src="{{ url_for('static', filename='img/pytorch-2.svg') }}"
+                                                             alt="">
+                                                        <h3 class="text-wrapper">PyTorch</h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-auto thin-margin">
+                                                <div class="single-brand-item d-table" data-filter=".tf">
+                                                    <div class="d-table-cell text-center">
+                                                        <img class="logo"
+                                                             src="{{ url_for('static', filename='img/tf-2.svg') }}"
+                                                             alt="">
+                                                        <h3 class="text-wrapper">TensorFlow</h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-auto thin-margin">
+                                                <div class="single-brand-item d-table" data-filter=".mongo">
+                                                    <div class="d-table-cell text-center">
+                                                        <img class="logo"
+                                                             src="{{ url_for('static', filename='img/mongodb-2.svg') }}"
+                                                             alt="">
+                                                        <h3 class="text-wrapper">MongoDB</h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-auto thin-margin">
+                                                <div class="single-brand-item d-table" data-filter=".js">
+                                                    <div class="d-table-cell text-center">
+                                                        <img class="logo"
+                                                             src="{{ url_for('static', filename='img/js-2.svg') }}"
+                                                             alt="">
+                                                        <h3 class="text-wrapper">JavaScript</h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-auto thin-margin">
+                                                <div class="single-brand-item d-table" data-filter=".d3">
+                                                    <div class="d-table-cell text-center">
+                                                        <img class="logo"
+                                                             src="{{ url_for('static', filename='img/d3-2.svg') }}"
+                                                             alt="">
+                                                        <h3 class="text-wrapper">D3.js</h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+{#                                        </div>#}
+{#                                    </div>#}
+                                </div>
+                            </div>
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+            </section>
+{#        </section>#}
+
+{#    </div>#}
+
+<section class="portfolio_area p-5" id="portfolio">
+    <div class="container" style="max-width: 90%">
+        <div class="filters-content">
+            <div class="row portfolio-grid">
+                <div class="grid-sizer col-md-3 col-lg-3"></div>
+                <div class="col-6 all following python jup tf">
+                    <div class="single_portfolio">
+                        <a href="portfolio-details.html">
+                            <img class="img-fluid w-100" src="{{ url_for('static', filename='img/portfolio/p1.jpg') }}"
+                                 alt="">
+                            <div class="overlay">
+                            </div>
+                        </a>
+                        <div class="short_info">
+                            <h3>Unsupervised Methods of NLP</h3>
+                            <p>Python, Jupyter, TensorFlow</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 all latest popular upcoming python d3">
+                    <div class="single_portfolio">
+                        <a href="portfolio-details.html">
+                            <img class="img-fluid w-100" src="{{ url_for('static', filename='img/portfolio/p4.jpg') }}"
+                                 alt="">
+                            <div class="overlay">
+                            </div>
+                        </a>
+                        <div class="short_info">
+                            <h3>Spurious Correlations</h3>
+                            <p>Python, D3</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 all latest following d3 js python">
+                    <div class="single_portfolio">
+                        <a href="portfolio-details.html">
+                            <img class="img-fluid w-100" src="{{ url_for('static', filename='img/portfolio/p2.jpg') }}"
+                                 alt="">
+                            <div class="overlay">
+                            </div>
+                        </a>
+                        <div class="short_info">
+                            <h3>Topological Data Analysis</h3>
+                            <p>Javascript, D3, Python</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 all latest upcoming sklearn python">
+                    <div class="single_portfolio">
+                        <a href="portfolio-details.html">
+                            <img class="img-fluid w-100" src="{{ url_for('static', filename='img/portfolio/p3.jpg') }}"
+                                 alt="">
+                            <div class="overlay">
+                            </div>
+                        </a>
+                        <div class="short_info">
+                            <h3>Random Forest from Scratch</h3>
+                            <p>Python, Scikit-Learn</p>
+                        </div>
+                    </div>
+                </div>
+
+{#                <div class="col-lg-6 col-md-6 all popular">#}
+                <div class="col-6 all popular sklearn tf python">
+                    <div class="single_portfolio">
+                        <a href="portfolio-details.html">
+                            <img class="img-fluid w-100" src="{{ url_for('static', filename='img/portfolio/p6.jpg') }}"
+                                 alt="">
+                            <div class="overlay">
+                            </div>
+                        </a>
+                        <div class="short_info">
+                            <h3>Deep Learning Metrics</h3>
+                            <p>Python, Scikit-Learn, TensorFlow</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-auto all popular latest following">
+                    <div class="single_portfolio python">
+                        <a href="portfolio-details.html">
+                            <img class="img-fluid w-100" src="{{ url_for('static', filename='img/portfolio/p5.jpg') }}"
+                                 alt="">
+                            <div class="overlay">
+                            </div>
+                        </a>
+                        <div class="short_info">
+                            <h3>Code for This Website</h3>
+                            <p>Python, Javascript</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+
+{% block js_scripts %}
+    <script src="{{ url_for('static', filename='vendor/isotope/isotope.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/portfolio.js') }}"></script>
+
+{% endblock %}

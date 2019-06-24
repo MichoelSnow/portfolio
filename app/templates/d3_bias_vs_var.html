@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+
+{% block head_content %}
+    {#     Modified from
+    https://blockbuilder.org/HarryStevens/397a50a604666957e661e4c725c1022a
+    https://blockbuilder.org/MelanieFreed/de8486bcc4755778098f#}
+    <link href="{{ url_for('static', filename='css/d3_bias_vs_var.css') }}" rel="stylesheet">
+
+{% endblock %}
+
+
+{% block body_content %}
+
+
+
+    <body>
+    <div class="container-fluid p-3 p-lg-5 d-flex">
+        <div class="data-contain-lg" id="chart">
+{#            <div class="text-center" >#}
+{#                <div>Bandwidth: <span class="bandwidth"></span></div>#}
+{#                <input type="range" min="2" max="100" value="25"/>#}
+{#            </div>#}
+        </div>
+        <div class="data-contain">
+            <div class="text-center" id="bandwidth">
+                <div>Bandwidth: <span class="bandwidth"></span></div>
+                <input type="range" min="2" max="100" value="25"/>
+            </div>
+        </div>
+    </div>
+{#    <div id="bandwidth">#}
+{#        <div>Bandwidth: <span class="bandwidth"></span></div>#}
+{#        <input type="range" min="2" max="100" value="25"/>#}
+{#    </div>#}
+    <script src="{{ url_for('static', filename='vendor/d3/d3.js') }}"></script>
+    <script src="https://unpkg.com/science@1.9.3/science.v1.min.js"></script>
+    <script src="{{ url_for('static', filename='js/d3_bias_vs_var.js') }}"></script>
+            <script >
+                d3.json("{{ url_for('static', filename='json/temp_data.json')}}").then(data => {
+                    plot_data(data);
+                })
+            </script>
+
+    </body>
+
+{% endblock %}

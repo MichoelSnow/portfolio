@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 23.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 170 100" style="enable-background:new 0 0 170 100;" xml:space="preserve">
+<style type="text/css">
+	.st0{clip-path:url(#SVGID_2_);}
+	.st1{fill:url(#SVGID_3_);}
+	.st2{fill:url(#SVGID_4_);}
+	.st3{fill:none;stroke:url(#SVGID_5_);stroke-width:36.2493;}
+</style>
+<g>
+	<g>
+		<defs>
+			<path id="SVGID_1_" d="M45,12.1h6.5c20.9,0,37.9,17,37.9,37.9s-17,37.9-37.9,37.9H45V71.2h6.5c11.7,0,21.2-9.5,21.2-21.2
+				s-9.5-21.2-21.2-21.2H45V12.1z M75.2,12.1h26.7c12.8,0,23.1,10.4,23.1,23.1c0,5.4-1.9,10.6-5.3,14.8c8.2,9.8,6.8,24.4-3,32.6
+				c-4.2,3.5-9.4,5.3-14.8,5.3H75.2c6.6-4.1,11.9-9.9,15.6-16.7h11c3.6,0,6.5-2.9,6.5-6.5s-2.9-6.5-6.5-6.5h-6.5
+				c1-5.5,1-11.2,0-16.7h6.5c3.6,0,6.5-2.9,6.5-6.5c0-3.6-2.9-6.5-6.5-6.5h-11C87.2,21.9,81.8,16.2,75.2,12.1z"/>
+		</defs>
+		<clipPath id="SVGID_2_">
+			<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
+		</clipPath>
+		<g class="st0">
+			
+				<linearGradient id="SVGID_3_" gradientUnits="userSpaceOnUse" x1="-6.7519" y1="23.7579" x2="3.6396" y2="34.1494" gradientTransform="matrix(3.4483 0 0 3.4483 24.4828 33.101)">
+				<stop  offset="0" style="stop-color:#F9A03C"/>
+				<stop  offset="1" style="stop-color:#F7974E"/>
+			</linearGradient>
+			<path class="st1" d="M-61.7-72.9v250h250L-61.7-72.9z"/>
+			
+				<linearGradient id="SVGID_4_" gradientUnits="userSpaceOnUse" x1="31.9194" y1="-23.6132" x2="47.1441" y2="-8.3885" gradientTransform="matrix(3.4483 0 0 3.4483 24.4828 33.101)">
+				<stop  offset="0" style="stop-color:#B84E51"/>
+				<stop  offset="1" style="stop-color:#F68E48"/>
+			</linearGradient>
+			<path class="st2" d="M-15-72.9h250v250L-15-72.9z"/>
+			
+				<linearGradient id="SVGID_5_" gradientUnits="userSpaceOnUse" x1="6.2374" y1="-6.4273" x2="26.8097" y2="14.3871" gradientTransform="matrix(3.4483 0 0 3.4483 24.4828 33.101)">
+				<stop  offset="0" style="stop-color:#F26D58"/>
+				<stop  offset="1" style="stop-color:#F9A03C"/>
+			</linearGradient>
+			<path class="st3" d="M-38.3-72.9l250,250"/>
+		</g>
+	</g>
+</g>
+</svg>

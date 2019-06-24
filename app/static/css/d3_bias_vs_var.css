@@ -1,0 +1,73 @@
+
+body {
+  margin: 0;
+  font-family: "Helvetica Neue", sans-serif;
+  background-color: #EBEBEB;
+}
+
+/*#bandwidth {*/
+/*  position: absolute;*/
+/*  left: 100px;*/
+/*}*/
+
+.loess-line {
+  fill: none;
+  stroke-width: 2px;
+  stroke: steelblue;
+}
+
+
+#main_div {
+  background-color: #c82333;
+}
+
+#container {
+  -webkit-transition: -webkit-transform 1.5s ease;
+  -o-transition: -o-transform 1.5s ease;
+  -ms-transition: -ms-transform 1.5s ease;
+  -ms-transition: -ms-transform 1.5s ease;
+  transition: -ms-transform 1.5s ease;
+  margin: 0 auto;
+  position: relative;
+  height: 100%;
+  /*background-color: #ebebeb;*/
+  /*color: #7a7a7a;*/
+  /*display: none;*/
+}
+
+
+.boxes {
+  position: relative;
+  width: 25%;
+  /*margin-right: 10;*/
+}
+
+.data-contain {
+  width: 10rem;
+  height: 4rem;
+  margin-right: 3rem;
+  margin-bottom: 2rem;
+  border: 0.2rem solid #eeeeee;
+  box-shadow: none;
+  -webkit-transition: all 0.4s ease 0s;
+  -moz-transition: all 0.4s ease 0s;
+  -o-transition: all 0.4s ease 0s;
+  transition: all 0.4s ease 0s;
+}
+
+.data-contain-lg {
+  width: 50rem;
+  height: 40rem;
+  margin-right: 3rem;
+  margin-bottom: 2rem;
+  /*border: 0.2rem solid #eeeeee;*/
+  box-shadow: none;
+  -webkit-transition: all 0.4s ease 0s;
+  -moz-transition: all 0.4s ease 0s;
+  -o-transition: all 0.4s ease 0s;
+  transition: all 0.4s ease 0s;
+}
+
+.base {
+  fill: #FAFAFA;
+}

@@ -1,0 +1,251 @@
+{% extends "base.html" %}
+
+
+{% block head_content %}
+
+    <link href="{{ url_for('static', filename='css/resume.css') }}" rel="stylesheet">
+
+{% endblock %}
+
+
+{% block body_content %}
+    <body id="page-top">
+
+    {#    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNav">#}
+    {#        <div>#}
+    {#        <a class="navbar-brand js-scroll-trigger" href="#page-top">#}
+    {#            <a class="navbar-brand js-scroll-trigger">#}
+    {#        <span class="d-block d-lg-none">Glen Ferguson</span>#}
+    {#        <span class="d-none d-lg-block">#}
+    {#                <span class="d-none d-lg-block">#}
+    {#              <!-- <img class="img-fluid img-profile rounded-circle mx-auto mb-2" src="img/profile.jpg" aut=""> -->#}
+    {#          <img class="img-fluid img-profile rounded-circle mx-auto mb-2"#}
+    {#              <img class="img-profile rounded-circle mx-auto mb-2"#}
+    {#                   src="{{ url_for('static', filename='img/Headshot_MichoelSnow.jpg') }}" alt="">#}
+    {#            </span>#}
+    {#            </a>#}
+    {#        </div>#}
+    {#        <div class=" content">#}
+    {#            <h3 class="header-text">Michoel Snow, M.D. Ph.D.</h3>#}
+    {#            <div class="subheading">#}
+    {#                <h5>New York City · MichoelSnow at gmail dot com</h5>#}
+    {#            </div>#}
+    {##}
+    {#            <span class="lead about-text">Data Scientist</span>#}
+    {#            <div class="about-text">#}
+    {#                <p>#}
+    {#                    Data Scientist with an extensive background in optimizing data driven workflows in#}
+    {#                    fast-paced environments. Passionate about extracting actionable insights from data,#}
+    {#                    implementing evidence based optimizations, and increasing worker/product efficiency.#}
+    {#                </p>#}
+    {#            </div>#}
+    {#            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"#}
+    {#                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">#}
+    {#                <span class="navbar-toggler-icon"></span>#}
+    {#            </button>#}
+    {#            <div class="collapse navbar-collapse" id="navbarSupportedContent">#}
+    {#                <ul class="navbar-nav">#}
+    {#                    <li class="nav-item">#}
+    {#                        <a class="nav-link js-scroll-trigger" href="{{ url_for('index') }}">Home</a>#}
+    {#                    </li>#}
+    {#                    <li class="nav-item">#}
+    {#                        <a class="nav-link js-scroll-trigger" href="#experience">Skills / Portfolio</a>#}
+    {#                    </li>#}
+    {#                </ul>#}
+    {#            </div>#}
+    {#            <div class="container ">#}
+    {#                <footer class="footer text-center">#}
+    {#                    <div class="container">#}
+    {#                        <ul class="list-inline mb-0">#}
+    {#                            <li class="list-inline-item">#}
+    {#                                <a class="social-link rounded-circle text-white mr-3"#}
+    {#                                   href="https://www.linkedin.com/in/michoelsnow/">#}
+    {#                                    <i class="icon-social-linkedin"></i>#}
+    {#                                </a>#}
+    {#                            </li>#}
+    {#                            <li class="list-inline-item">#}
+    {#                                <a class="social-link rounded-circle text-white"#}
+    {#                                   href="https://github.com/michoelsnow">#}
+    {#                                    <i class="icon-social-github"></i>#}
+    {#                                </a>#}
+    {#                            </li>#}
+    {#                        </ul>#}
+    {#                                <p class="text-muted small mb-0">Copyright &copy; Your Website 2019</p>#}
+    {#                    </div>#}
+    {#                </footer>#}
+    {#                                <p class="text-muted small mb-0">Copyright &copy; Your Website 2019</p>#}
+    {#            </div>#}
+    {#        </div>#}
+    {#    </nav>#}
+
+    <div class="container-fluid p-0">
+
+
+        <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="experience">
+            <div class="my-auto">
+                <h2 class="mb-5">Experience</h2>
+
+
+                <div class="resume-item d-flex flex-column flex-md-row mb-5">
+                    <div class="resume-content mr-auto">
+                        <h3 class="mb-0">Data Scientist/Instuctor of Radiation Oncology</h3>
+                        <div class="subheading mb-3">Albert Einstein College of Medicine</div>
+                        <ul>
+                            <li>
+                                Developed semantic extraction models of clinical free text for automated routing,
+                                resulting in an average 75% decrease in patient consult wait times (NLP, Deep
+                                Learning, Keras, Tensorflow, Gensim, Scikit-Learn)
+                            </li>
+                            <li>
+                                Designed integrative machine learning models of radiological imaging, clinical free
+                                text, and lab values to detect and predict spinal cancer and metastatic epidural
+                                spinal cord compression. (Deep Learning, Keras, Tensorflow, CNN, NLP, Scikit-Learn)
+                            </li>
+                            <li>
+                                Led multidisciplinary team of engineers, clinicians and researchers in building
+                                scalable clinical databases, labeling app, and developing benchmarks for current and
+                                future projects (NoSQL, MongoDB, NLP, Random Forest, Scikit-Learn)
+                            </li>
+                            <li>
+                                Full stack development of Topological Data Analysis (TDA) back-end service with
+                                front-end dashboard for machine learning model analysis. Achieved 3% increase in
+                                early sepsis identification vs currently implemented LSTM model (Clustering, TDA,
+                                Visualization, Javascript, d3.js)
+                            </li>
+                            <li>
+                                Created healthcare informatics departmental and course curriculum, prototyped new
+                                courses, and managed instructors in implementing these courses
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="resume-date text-md-right">
+                        <span class="text-primary">April 2017 - Present</span>
+                    </div>
+                </div>
+
+                <div class="resume-item d-flex flex-column flex-md-row mb-5">
+                    <div class="resume-content mr-auto">
+                        <h3 class="mb-0">Ph.D. Candidate</h3>
+                        <div class="subheading mb-3">Albert Einstein College of Medicine</div>
+                        <ul>
+                            <li>
+                                Modeled adaptation in primary visual cortex as reflective of the inherent temporal
+                                statistics within the natural visual environment
+                            </li>
+                            <li>
+                                Developed modeling approaches in MATLAB based on equations for applied Expectation
+                                Maximization derived in Mathematica
+                            </li>
+                            <li>
+                                Published first author article in Journal of Vision and invited review on recent
+                                trends in visual adaptation
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="resume-date text-md-right">
+                        <span class="text-primary">July 2010 - January 2016</span>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </section>
+
+        <hr class="m-0">
+
+        <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="skills">
+            <div class="my-auto">
+                <h2 class="mb-5">Skills</h2>
+                <p>Stategic: Leader | Effective Presenter | Excellent Team Member | Critical Thinker </p>
+                <p>Data Science: Python (Scikit-Learn, Pandas, NumPy, SciPy, Matplotlib, seaborn, NLTK, Gensim,
+                    spaCy, PyMongo, SQLite, PyTorch, Keras, TensorFlow, OpenCV) | R (dplyr,
+                    ggplot2) | SQL (MySQL, PostgreSQL) | NoSQL (MongoDB) | MATLAB | JS (jQuery, d3, Ajax) |
+                    Mathematica</p>
+                <p>Machine Learning: Deep Learning (CNN, RNN) | Decision Trees | Random Forests | Regression Models
+                    | Clustering (K-means, manifold learning, Expectation-Maximization) | Linear Mixed Models |
+                    Matrix Factorization | General Linear Models | Naïve Bayes | SVM | Neural Networks | KNN |
+                    Association Rules | NLP | Computer Vision | Dimensionality reduction (PCA, t-SNE, TDA) </p>
+                <p>Data Visualization: d3.js | Matplotlib | Plotly | seaborn | ggplot2 | LaTeX | Illustrator |
+                    InDesign </p>
+            </div>
+
+        </section>
+
+        <hr class="m-0">
+
+        <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="publications">
+            <div class="my-auto">
+                <h2 class="mb-5">Publications</h2>
+                <p>Snow, Michoel, Ruben Coen-Cagli, and Odelia Schwartz. "Specificity and timescales of cortical
+                    adaptation as inferences about natural movie statistics." Journal of vision 16.13 (2016). </p>
+                <p>Snow, Michoel. Adaptation in V1 as Inferences About Natural Movie Statistics. Diss. ProQuest
+                    Dissertations & Theses, 2016.</p>
+                <p>Snow, Michoel, Ruben Coen-Cagli, and Odelia Schwartz. "Adaptation in the visual cortex: a case
+                    for probing neuronal populations with natural stimuli." F1000Research 6 (2017).</p>
+                <p> Details can be found on my <a
+                        href="https://scholar.google.com/citations?user=zoj1lOEAAAAJ&hl=en">Google Scholar
+                    profile.</a></p>
+            </div>
+
+
+        </section>
+
+        <hr class="m-0">
+
+        <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="talks">
+            <div class="my-auto">
+                <h2 class="mb-5">Talks</h2>
+                <div class="resume-item d-flex flex-column flex-md-row mb-5">
+                    <div class="resume-content mr-auto">
+                        <p>Machine Learning & Healthcare: Why My
+                            Radiologist is Not Yet An Alogirthm <a href="https://www.youtube.com/watch?v=Zduypo-Ind8"> (YouTube link)</a></p>
+                    </div>
+                    <div class="resume-date text-md-right">
+                        <span class="text-primary">PyData Miami 2019</span>
+                    </div>
+                </div>
+            </div>
+
+
+        </section>
+
+
+        <hr class="m-0">
+
+        <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="education">
+            <div class="my-auto">
+                <h2 class="mb-5">Education</h2>
+
+                <div class="resume-item d-flex flex-column flex-md-row mb-5">
+                    <div class="resume-content mr-auto">
+                        <h3 class="mb-0">Albert Einstein College of Medicine</h3>
+                        <div class="subheading mb-3">Doctor of Philosophy</div>
+                        <div>Department: Systems & Computational Biology – Specalization in Computational
+                            Neuroscience
+                        </div>
+                        {#                                    <p>GPA: 3.8/4.0</p>#}
+                    </div>
+                    <div class="resume-date text-md-right">
+                        <span class="text-primary">May 2017</span>
+                    </div>
+                </div>
+
+                <div class="resume-item d-flex flex-column flex-md-row">
+                    <div class="resume-content mr-auto">
+                        <h3 class="mb-0">Cornell University</h3>
+                        <div class="subheading mb-3">Bachelors of Science in Engineering</div>
+                        <div>Major: Biological Engineering</div>
+                        {#                                    <p>GPA: 3.7/4.0</p>#}
+                    </div>
+                    <div class="resume-date text-md-right">
+                        <span class="text-primary">May 2008</span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+
+    </div>
+{% endblock %}
